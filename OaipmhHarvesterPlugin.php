@@ -33,6 +33,8 @@ class OaipmhHarvesterPlugin extends Omeka_Plugin_AbstractPlugin
                               'upgrade',
                               'initialize',
                               'define_acl', 
+                              'config_form',
+                              'config',
                               'admin_append_to_plugin_uninstall_message', 
                               'before_delete_item',
                               'admin_items_show_sidebar',
@@ -163,6 +165,17 @@ SQL;
     {
         $acl = $args['acl']; // get the Zend_Acl
         $acl->addResource('OaipmhHarvester_Index');
+    }
+
+    public function hookConfigForm()
+    {
+        require __DIR__ . '/config_form.php';
+    }
+
+    public function hookConfig($args)
+    {
+        $timeout = $args['post']['oaipmhharvester_http_client_timeout'];
+        set_option('oaipmhharvester_http_client_timeout', $timeout);
     }
     
     /**
