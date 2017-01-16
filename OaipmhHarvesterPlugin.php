@@ -82,7 +82,7 @@ class OaipmhHarvesterPlugin extends Omeka_Plugin_AbstractPlugin
           `set_name` text,
           `set_description` text,
           `status` enum('queued','in progress','completed','error','deleted','killed') NOT NULL default 'queued',
-          `status_messages` text,
+          `status_messages` longtext,
           `resumption_token` text,
           `initiated` datetime default NULL,
           `completed` datetime default NULL,
@@ -147,6 +147,14 @@ ALTER TABLE `{$db->prefix}oaipmh_harvester_records`
     ADD INDEX `identifier_idx` (identifier(255)),
     ADD UNIQUE INDEX `item_id_idx` (item_id)
 SQL;
+            $db->query($sql);
+        }
+
+        if (version_compare($oldVersion, '2.0.3', '<')) {
+            $sql = "
+                ALTER TABLE `{$db->prefix}oaipmh_harvester_harvests`
+                MODIFY `status_messages` longtext
+            ";
             $db->query($sql);
         }
     }
