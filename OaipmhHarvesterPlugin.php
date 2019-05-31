@@ -183,7 +183,10 @@ SQL;
     public function hookConfig($args)
     {
         $timeout = $args['post']['oaipmhharvester_http_client_timeout'];
+        $no_update = $args['post']['oaipmhharvester_no_update'];
+
         set_option('oaipmhharvester_http_client_timeout', $timeout);
+        set_option('oaipmhharvester_no_update', $no_update);
     }
     
     /**

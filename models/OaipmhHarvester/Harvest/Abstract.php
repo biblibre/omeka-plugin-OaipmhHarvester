@@ -175,7 +175,8 @@ abstract class OaipmhHarvester_Harvest_Abstract
         // Record has already been harvested
         if ($existingRecord) {
             // If datestamp has changed, update the record, otherwise ignore.
-            if($existingRecord->datestamp != $record->header->datestamp) {
+            $no_update = get_option('oaipmhharvester_no_update');
+            if (!$no_update && $existingRecord->datestamp != $record->header->datestamp) {
                 $this->_updateItem($existingRecord,
                                   $harvestedRecord['elementTexts'],
                                   $harvestedRecord['fileMetadata']);
